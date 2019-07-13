@@ -1,0 +1,375 @@
+#include <iostream>
+using namespace std;
+
+// 1. Queue using Circular Array program STARTS HERE
+int SIZE = 10;
+int queue[10];
+int front1 = -1;
+int rear1 = -1;
+
+ void enqueue(int n)
+ {
+     if((rear1+1)%SIZE == front1) //check if the next element is front, if it is equal to front then queue is overflow and returns the program;
+     {
+         cout << "Queue overflow" << endl;
+         return;
+     }
+     else
+     {
+         if(rear1 == -1 && front1 == -1) // if both are -1 then queue is empty and we set both to 0
+         {
+             rear1 = 0;
+             front1 = 0;
+         }
+         else
+             rear1 = (rear1+1)%SIZE; // if not, increment rear in a circular way
+
+        queue[rear1] = n; // inserting the element in the array
+         cout << "Value " << n << " is inserted in Queue array" << endl;
+     }
+ }
+int dequeue()
+{
+     int value;
+     if(rear1 == -1 && front1 -1) // check if queue is empty     {
+         cout << "Queue underflow" << endl; //dequeue can't take place
+         return 0;
+     }
+     else
+     {
+         value = queue[front1]; // delete the element in the front which is the rear element
+
+         if(rear1 == front1) //if rear equal to front that means queue had only one element and we set front 
+          //and rear to -1
+                rear1 = front1 = -1;
+         else
+         {
+             front1 = (front1+1)%SIZE; // else imcrement queue in a circular way
+         }
+         cout << value << " is deleted" << endl;
+         return value;
+    }
+ 
+ }
+ 
+ void display()
+ {
+      cout << "*********************" << endl;
+ 
+      if(front1 == -1 && rear1 == -1)
+      {
+          cout << "Queue is empty" << endl;
+          return;
+      }
+      else
+      {
+          if(front1 <= rear1)
+          {
+             for (int i = front1; i <= rear1; ++i) //print the queue elements
+                  cout << queue[i] << " ";
+          }
+          else
+          {
+              for(int i = front1; i < SIZE-1; ++i) //two for loops, one run from front to till the last element
+                  cout << queue[i] << " ";
+              for(int i = 0; i <=rear1; ++i) // other loops runs from index 0 to rear
+                    cout << queue[i] << " ";
+         }
+     }
+     cout << endl;
+     cout << "*********************" << endl;
+ 
+     cout << endl;
+ }
+
+ int main1()
+ {
+     int value, choice;
+
+     cout << "THIS OPTION IMPLEMENTS QUEUE USING CIRCULAR ARRAY " << endl;
+
+     do {
+         cout << "Press 1 to Enqueue" << endl;
+         cout << "Press 2 to Dequeue" << endl;
+         cout << "Press 3 to Display" << endl;
+         cout << "Press 4 to Exit" << endl;
+         cout << "Enter your choice: " << endl;
+         cin >> choice;
+
+         switch(choice)
+         {
+             case 1: cout << "Enter the value: " << endl;
+                 cin >> value;
+                 enqueue(value);
+                 break;
+
+             case 2: value = dequeue();
+                 if(value != -1)
+                     cout << value << " is deleted" << endl;
+                 break;
+
+            case 3: display();
+                 break;
+             default: cout << "Exiting program" << endl;
+         }
+     } while (choice ==1 || choice ==2 || choice ==3);
+     return 0;
+ }
+
+ // Queue using Circular Array program ENDS HERE
+
+ // Queue using Linked List STARTS HERE:
+
+ struct node
+ {
+     int data;
+     struct node *next;
+ };
+ struct node *Front = NULL;
+ struct node *Rear=NULL;
+
+ bool IsEmpty()
+ {
+     if (Front==NULL && Rear == NULL)
+         return true;
+     else
+         return false;
+ }
+
+ int Dequeue()
+ {
+     struct node *temp= Front;
+     if (Front == NULL)
+     {
+         cout <<"Queue is empty"<<endl;
+         return -1;
+     }
+     if (Front == Rear)
+         Front = Rear = NULL;
+     else
+         Front = Front ->next;
+
+     free(temp);
+     return 0;
+ }
+
+ void Enqueue(int num)
+ {
+     struct node *temp = (struct node*)malloc(sizeof(struct node));
+     temp->data=num;
+     temp->next = NULL;
+     if (Front == NULL && Rear == NULL)
+     {
+         Front = Rear = temp;
+         return;
+     }
+     Rear->next=temp;
+     Rear=temp;
+ }
+void Display()
+ {
+     cout << "*********************" << endl;
+
+     if (IsEmpty())
+         cout << "Queue is empty" << endl;
+     else
+     {
+         node *temp = Front;
+         do
+         {
+             cout << temp->data << "   ";
+             temp = temp-> next;
+         } while (temp!=NULL);
+     }
+     cout << endl;
+     cout << "*********************" << endl;
+
+     cout << endl;
+ }
+
+int main2 ()
+ {
+     cout << "THIS OPTION IMPLEMENTS QUEUE USING LINKED LIST " << endl;
+     int value, choice;
+     do
+     {
+         cout << endl;
+         cout << "Press 1 to enqueue" << endl;
+         cout << "Press 2 to dequeue" << endl;
+         cout << "Press 3 to display" << endl;
+         cout << "Press 4 to exit" << endl;
+         cout << "Enter your choice : ";
+         cin >> choice;
+         switch(choice)
+         {
+             case 1: cout << "Enter the value to be inserted : ";
+                 cin >> value;
+                 Enqueue(value);
+                 break;
+
+             case 2: value = Dequeue();
+                 if(value!= -1)
+                cout << "Front value is deleted" << endl;
+                   break;
+
+             case 3: Display();
+                 break;
+
+                default: cout << "Exiting program" << endl;
+            }
+     } while(choice ==1 || choice ==2 || choice ==3);
+     return 0;
+ }
+ // Queue using Linked List ENDS HERE
+
+ // Queue using Circular Linked List Starts Here:
+
+ struct Node
+ {
+     int data;
+     struct Node* next;
+ };
+
+ struct Queue
+ {
+     struct Node *front, *rear;
+ };
+
+ void enQueue(Queue *q, int value)
+ {
+     struct Node *temp = new Node;
+     temp->data = value;
+     if (q->front == NULL)
+         q->front = temp;
+     else
+         q->rear->next = temp;
+
+     q->rear = temp;
+     q->rear->next = q->front;
+}
+int deQueue(Queue *q
+ {
+     if (q->front == NULL)
+
+ {
+         cout << "Queue is empty";
+         return 0;
+     }
+
+     int value;
+     if (q->front == q->rear)
+     {
+         value = q->front->data;
+         free(q->front);
+         q->front = NULL;
+         q->rear = NULL;
+     }
+     else
+     {
+         struct Node *temp = q->front;
+         value = temp->data;
+         q->front = q->front->next;
+         q->rear->next= q->front;
+         free(temp);
+     }
+
+     return value ;
+ }
+
+ void displayQueue(struct Queue *q)
+ {
+     cout << "***********************************" << endl;
+     struct Node *temp = q->front;
+     cout << "  ";
+     while (temp->next != q->front)
+     {
+         cout << temp->data << " ";
+         temp = temp->next;
+     }
+
+     cout << temp->data;
+     cout << endl;
+     cout << "***********************************" << endl;
+ }
+
+int main3()
+{
+
+     Queue *q = new Queue;
+     q->front = q->rear = NULL;
+
+     cout << "THIS OPTION IMPLEMENTS QUEUE USING CIRCULAR LINKED LIST " << endl;
+     int value, choice;
+     do
+     {
+         cout << endl;
+         cout << "Press 1 to enqueue" << endl;
+         cout << "Press 2 to dequeue" << endl;
+         cout << "Press 3 to display" << endl;
+         cout << "Press 4 to exit" << endl;
+         cout << "Enter your choice : ";
+         cin >> choice;
+         switch(choice)
+         {
+             case 1: cout << "Enter the value to be inserted : ";
+                 cin >> value;
+                 enQueue(q, value);
+                 break;
+
+             case 2: value = deQueue(q);
+                 if(value!= -1)
+                     cout << "Front value is deleted" << endl;
+                 break;
+
+             case 3: displayQueue(q);
+                 break;
+
+             default: cout << "Exiting program! " << endl;
+         }
+     } while(choice ==1 || choice ==2 || choice ==3);
+
+     return 0;
+}
+
+
+// Queue using Circular Linked List Ends Here:
+
+
+int main ()
+{
+
+ if (system("CLS")) system("clear");
+     cout << "Welcome to Faiza's program!" << endl;
+     cout << "This software implements queue in a linked list. You can enqueue and dequeue values in the list." << endl;
+     cout << "For instance, if a list had 456, you can enqueue 1, for example, and it will be added to the end, becoming 4561." << endl;
+     cout << "You can also dequeue. So if the list has 4561, dequeue will remove the first element, resulting in 561 in this case." << endl;
+
+     int choice;
+
+     cout << "1. Implementation of the queue using a circular array" << endl;
+     cout << "2. Implementation of the queue using a linked list" << endl;
+     cout << "3. Implementation of the queue using a circular linked list" << endl;
+     cout << "Please Enter Your Choice: ";
+     cin >> choice;
+     cout << endl << endl;
+
+     if (choice == 1)
+     {
+         int queue_using_circular_array = main1();
+         cout << queue_using_circular_array;
+     }
+     else if (choice == 2)
+     {
+         int queue_using_linked_list = main2();
+         cout << queue_using_linked_list;
+     }
+     else if (choice == 3)
+     {
+         int queue_using_circular_linked_list = main3();
+         cout << queue_using_circular_linked_list;
+     }
+     else
+         cout << "Exiting program!" << endl;
+
+     return 0;
+}
