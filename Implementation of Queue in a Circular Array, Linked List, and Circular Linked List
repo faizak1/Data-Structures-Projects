@@ -31,7 +31,8 @@ int rear1 = -1;
 int dequeue()
 {
      int value;
-     if(rear1 == -1 && front1 -1) // check if queue is empty     {
+     if(rear1 == -1 && front1 -1) // check if queue is empty     
+     {
          cout << "Queue underflow" << endl; //dequeue can't take place
          return 0;
      }
@@ -247,7 +248,7 @@ int main2 ()
      q->rear = temp;
      q->rear->next = q->front;
 }
-int deQueue(Queue *q
+int deQueue(Queue *q)
  {
      if (q->front == NULL)
 
@@ -273,7 +274,7 @@ int deQueue(Queue *q
          free(temp);
      }
 
-     return value ;
+     return value;
  }
 
  void displayQueue(struct Queue *q)
