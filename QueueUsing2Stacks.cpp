@@ -24,7 +24,7 @@ int dequeue() {
         return 0;
     } 
     int res = st1.top(); 
-    cout << res << " is popped off the stack "<< endl; 
+    cout << res << " is popped off the queue "<< endl; 
     st1.pop(); 
     return res; 
 } 
